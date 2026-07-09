@@ -104,6 +104,12 @@ const state = {
   statusText: "LIVE DEBATE",
   motionLabel: "MOTION ON THE FLOOR",
   
+  // Opponent speakers
+  sideATitle: "PROPOSITION",
+  sideASpeakers: ["Speaker 1", "Speaker 2"],
+  sideBTitle: "OPPOSITION",
+  sideBSpeakers: ["Speaker 1", "Speaker 2"],
+  
   // Timer settings
   timerDuration: 180, // Default 3 minutes in seconds
   timerTimeLeft: 180,
@@ -131,6 +137,10 @@ const DOM = {
   timerProgressRing: document.getElementById("timer-progress-ring"),
   timerCard: document.querySelector(".timer-card"),
   timerStatusLabel: document.getElementById("timer-status-label"),
+  displaySideATitle: document.getElementById("display-side-a-title"),
+  displaySideASpeakers: document.getElementById("display-side-a-speakers"),
+  displaySideBTitle: document.getElementById("display-side-b-title"),
+  displaySideBSpeakers: document.getElementById("display-side-b-speakers"),
   
   // Dock items
   dockItems: document.querySelectorAll(".dock-item"),
@@ -148,6 +158,10 @@ const DOM = {
   inputTimerSec: document.getElementById("input-timer-sec"),
   inputStatusText: document.getElementById("input-status-text"),
   inputMotionLabel: document.getElementById("input-motion-label"),
+  inputSideATitle: document.getElementById("input-side-a-title"),
+  inputSideBTitle: document.getElementById("input-side-b-title"),
+  inputSideASpeakers: document.getElementById("input-side-a-speakers"),
+  inputSideBSpeakers: document.getElementById("input-side-b-speakers"),
   sliderParticleCount: document.getElementById("slider-particle-count"),
   sliderParticleSpeed: document.getElementById("slider-particle-speed"),
   
@@ -207,7 +221,11 @@ function saveToLocalStorage() {
     motionLabel: state.motionLabel,
     timerDuration: state.timerDuration,
     particleCount: state.particleCount,
-    particleSpeedFactor: state.particleSpeedFactor
+    particleSpeedFactor: state.particleSpeedFactor,
+    sideATitle: state.sideATitle,
+    sideASpeakers: state.sideASpeakers,
+    sideBTitle: state.sideBTitle,
+    sideBSpeakers: state.sideBSpeakers
   }));
 }
 
@@ -226,6 +244,10 @@ function loadFromLocalStorage() {
       }
       if (saved.particleCount !== undefined) state.particleCount = Number(saved.particleCount);
       if (saved.particleSpeedFactor !== undefined) state.particleSpeedFactor = Number(saved.particleSpeedFactor);
+      if (saved.sideATitle) state.sideATitle = saved.sideATitle;
+      if (saved.sideASpeakers) state.sideASpeakers = saved.sideASpeakers;
+      if (saved.sideBTitle) state.sideBTitle = saved.sideBTitle;
+      if (saved.sideBSpeakers) state.sideBSpeakers = saved.sideBSpeakers;
     } catch (e) {
       console.error("Error loading state from localStorage", e);
     }
@@ -474,6 +496,11 @@ function initControlPanel() {
     DOM.inputStatusText.value = state.statusText;
     DOM.inputMotionLabel.value = state.motionLabel;
     
+    DOM.inputSideATitle.value = state.sideATitle;
+    DOM.inputSideBTitle.value = state.sideBTitle;
+    DOM.inputSideASpeakers.value = state.sideASpeakers.join("\n");
+    DOM.inputSideBSpeakers.value = state.sideBSpeakers.join("\n");
+    
     const minutes = Math.floor(state.timerDuration / 60);
     const seconds = state.timerDuration % 60;
     DOM.inputTimerMin.value = minutes;
@@ -545,11 +572,37 @@ function initControlPanel() {
     DOM.displayMotionLabel.textContent = state.motionLabel;
   });
 
+  // Real-time update listeners for opponents
+  DOM.inputSideATitle.addEventListener("input", (e) => {
+    state.sideATitle = e.target.value.toUpperCase();
+    DOM.displaySideATitle.textContent = state.sideATitle;
+  });
+
+  DOM.inputSideBTitle.addEventListener("input", (e) => {
+    state.sideBTitle = e.target.value.toUpperCase();
+    DOM.displaySideBTitle.textContent = state.sideBTitle;
+  });
+
+  DOM.inputSideASpeakers.addEventListener("input", (e) => {
+    state.sideASpeakers = e.target.value.split("\n");
+    updateSpeakersUI();
+  });
+
+  DOM.inputSideBSpeakers.addEventListener("input", (e) => {
+    state.sideBSpeakers = e.target.value.split("\n");
+    updateSpeakersUI();
+  });
+
   // Apply and Close
   DOM.btnSaveApply.addEventListener("click", () => {
     state.topic = DOM.inputTopic.value;
     state.statusText = DOM.inputStatusText.value.toUpperCase();
     state.motionLabel = DOM.inputMotionLabel.value.toUpperCase();
+    
+    state.sideATitle = DOM.inputSideATitle.value.toUpperCase();
+    state.sideBTitle = DOM.inputSideBTitle.value.toUpperCase();
+    state.sideASpeakers = DOM.inputSideASpeakers.value.split("\n");
+    state.sideBSpeakers = DOM.inputSideBSpeakers.value.split("\n");
     
     // Save to localStorage
     saveToLocalStorage();
@@ -588,6 +641,10 @@ function applyStateToUI() {
   DOM.displayStatus.textContent = state.statusText;
   DOM.displayMotionLabel.textContent = state.motionLabel;
   
+  DOM.displaySideATitle.textContent = state.sideATitle;
+  DOM.displaySideBTitle.textContent = state.sideBTitle;
+  updateSpeakersUI();
+  
   DOM.body.className = `theme-${state.theme}`;
   
   DOM.dockItems.forEach(btn => {
@@ -599,6 +656,26 @@ function applyStateToUI() {
   });
   
   adjustTopicFontSize();
+}
+
+function updateSpeakersUI() {
+  DOM.displaySideASpeakers.innerHTML = "";
+  state.sideASpeakers.forEach(name => {
+    if (name.trim()) {
+      const li = document.createElement("li");
+      li.textContent = name.trim();
+      DOM.displaySideASpeakers.appendChild(li);
+    }
+  });
+  
+  DOM.displaySideBSpeakers.innerHTML = "";
+  state.sideBSpeakers.forEach(name => {
+    if (name.trim()) {
+      const li = document.createElement("li");
+      li.textContent = name.trim();
+      DOM.displaySideBSpeakers.appendChild(li);
+    }
+  });
 }
 
 /* ==========================================================================

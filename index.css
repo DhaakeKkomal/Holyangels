@@ -340,15 +340,84 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 3.5rem;
+  gap: 2rem;
   width: 100%;
   max-height: calc(100vh - 200px);
 }
 
+.stage-grid {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 2rem;
+  width: 100%;
+  max-width: 1600px;
+  z-index: 2;
+}
+
+.speaker-panel {
+  flex: 1;
+  min-width: 250px;
+  max-width: 320px;
+  background: rgba(13, 14, 22, 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 1.8rem;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  transition: border var(--transition-speed) var(--transition-easing);
+}
+
+.speaker-panel.side-left {
+  border-left: 4px solid var(--primary-color);
+}
+
+.speaker-panel.side-right {
+  border-right: 4px solid var(--primary-color);
+}
+
+.side-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  color: var(--secondary-color);
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 0.75rem;
+  text-align: center;
+  transition: color var(--transition-speed) var(--transition-easing);
+}
+
+.speaker-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.speaker-list li {
+  padding: 0.25rem 0;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.04);
+}
+
+.speaker-list li:last-child {
+  border-bottom: none;
+}
+
 /* Topic Presentation Card */
 .topic-card-container {
-  width: 100%;
-  max-width: 1100px;
+  flex: 2;
+  max-width: 900px;
   position: relative;
 }
 
@@ -732,7 +801,9 @@ body {
   text-transform: uppercase;
 }
 
-textarea#input-topic {
+textarea#input-topic,
+textarea#input-side-a-speakers,
+textarea#input-side-b-speakers {
   background: rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 10px;
@@ -747,7 +818,9 @@ textarea#input-topic {
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-textarea#input-topic:focus {
+textarea#input-topic:focus,
+textarea#input-side-a-speakers:focus,
+textarea#input-side-b-speakers:focus {
   border-color: rgba(var(--primary-rgb), 0.5);
   box-shadow: 0 0 10px rgba(var(--primary-rgb), 0.15);
 }

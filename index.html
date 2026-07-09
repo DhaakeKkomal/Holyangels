@@ -51,20 +51,38 @@
 
     <!-- Main Stage Display -->
     <main class="stage-area">
-      <!-- Debate Topic Card -->
-      <section class="topic-card-container">
-        <div class="card-glow-overlay"></div>
-        <div class="topic-card">
-          <div class="card-corner-decor tl"></div>
-          <div class="card-corner-decor tr"></div>
-          <div class="card-corner-decor bl"></div>
-          <div class="card-corner-decor br"></div>
+      <div class="stage-grid">
+        <!-- Left Side: Side A Speakers -->
+        <aside class="speaker-panel side-left">
+          <h3 class="side-title" id="display-side-a-title">PROPOSITION</h3>
+          <ul class="speaker-list" id="display-side-a-speakers">
+            <!-- Populated via JavaScript -->
+          </ul>
+        </aside>
 
-          <div class="motion-badge" id="display-motion-label">MOTION ON THE FLOOR</div>
-          <h2 class="topic-display" id="display-topic">This House believes that artificial intelligence will enhance
-            human potential rather than replace it.</h2>
-        </div>
-      </section>
+        <!-- Center: Debate Topic Card -->
+        <section class="topic-card-container">
+          <div class="card-glow-overlay"></div>
+          <div class="topic-card">
+            <div class="card-corner-decor tl"></div>
+            <div class="card-corner-decor tr"></div>
+            <div class="card-corner-decor bl"></div>
+            <div class="card-corner-decor br"></div>
+            
+            <div class="motion-badge" id="display-motion-label">MOTION ON THE FLOOR</div>
+            <h2 class="topic-display" id="display-topic">This House believes that artificial intelligence will enhance
+              human potential rather than replace it.</h2>
+          </div>
+        </section>
+
+        <!-- Right Side: Side B Speakers -->
+        <aside class="speaker-panel side-right">
+          <h3 class="side-title" id="display-side-b-title">OPPOSITION</h3>
+          <ul class="speaker-list" id="display-side-b-speakers">
+            <!-- Populated via JavaScript -->
+          </ul>
+        </aside>
+      </div>
 
       <!-- Dynamic Debate Timer -->
       <section class="timer-section">
@@ -178,6 +196,31 @@
               </div>
               <div class="presets-grid" id="presets-grid">
                 <!-- Dynamically populated in JavaScript -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 1.5: Opponents Config -->
+          <div class="modal-section">
+            <h3>Debate Opponents</h3>
+            <div class="modal-grid-two-cols">
+              <div class="input-group">
+                <label for="input-side-a-title">Side A Label</label>
+                <input type="text" id="input-side-a-title" value="PROPOSITION">
+              </div>
+              <div class="input-group">
+                <label for="input-side-b-title">Side B Label</label>
+                <input type="text" id="input-side-b-title" value="OPPOSITION">
+              </div>
+            </div>
+            <div class="modal-grid-two-cols" style="margin-top: 10px;">
+              <div class="input-group">
+                <label for="input-side-a-speakers">Side A Names (one per line)</label>
+                <textarea id="input-side-a-speakers" placeholder="Enter speaker names..."></textarea>
+              </div>
+              <div class="input-group">
+                <label for="input-side-b-speakers">Side B Names (one per line)</label>
+                <textarea id="input-side-b-speakers" placeholder="Enter speaker names..."></textarea>
               </div>
             </div>
           </div>
