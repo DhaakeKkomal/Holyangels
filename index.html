@@ -13,7 +13,7 @@
     href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&display=swap"
     rel="stylesheet">
 
-  <link rel="stylesheet" href="index.css?v=1.5">
+  <link rel="stylesheet" href="index.css?v=1.6">
 </head>
 
 <body class="theme-social-studies">
@@ -52,12 +52,10 @@
     <!-- Main Stage Display -->
     <main class="stage-area">
       <div class="stage-grid">
-        <!-- Left Side: Side A Speakers -->
+        <!-- Left Side: Side A Speaker -->
         <aside class="speaker-panel side-left">
-          <h3 class="side-title" id="display-side-a-title">PROPOSITION</h3>
-          <ul class="speaker-list" id="display-side-a-speakers">
-            <!-- Populated via JavaScript -->
-          </ul>
+          <span class="side-title" id="display-side-a-title">PROPOSITION</span>
+          <div class="speaker-display-name" id="display-side-a-speaker">Speaker A</div>
         </aside>
 
         <!-- Center: Debate Topic Card -->
@@ -75,12 +73,10 @@
           </div>
         </section>
 
-        <!-- Right Side: Side B Speakers -->
+        <!-- Right Side: Side B Speaker -->
         <aside class="speaker-panel side-right">
-          <h3 class="side-title" id="display-side-b-title">OPPOSITION</h3>
-          <ul class="speaker-list" id="display-side-b-speakers">
-            <!-- Populated via JavaScript -->
-          </ul>
+          <span class="side-title" id="display-side-b-title">OPPOSITION</span>
+          <div class="speaker-display-name" id="display-side-b-speaker">Speaker B</div>
         </aside>
       </div>
 
@@ -215,12 +211,12 @@
             </div>
             <div class="modal-grid-two-cols" style="margin-top: 10px;">
               <div class="input-group">
-                <label for="input-side-a-speakers">Side A Names (one per line)</label>
-                <textarea id="input-side-a-speakers" placeholder="Enter speaker names..."></textarea>
+                <label for="input-side-a-speaker">Side A Speaker Name</label>
+                <input type="text" id="input-side-a-speaker" placeholder="Enter speaker name...">
               </div>
               <div class="input-group">
-                <label for="input-side-b-speakers">Side B Names (one per line)</label>
-                <textarea id="input-side-b-speakers" placeholder="Enter speaker names..."></textarea>
+                <label for="input-side-b-speaker">Side B Speaker Name</label>
+                <input type="text" id="input-side-b-speaker" placeholder="Enter speaker name...">
               </div>
             </div>
           </div>
@@ -309,7 +305,7 @@
     </div>
   </div>
 
-  <script src="index.js?v=1.5"></script>
+  <script src="index.js?v=1.6"></script>
 </body>
 
 </html>

@@ -106,9 +106,9 @@ const state = {
   
   // Opponent speakers
   sideATitle: "PROPOSITION",
-  sideASpeakers: ["Speaker 1", "Speaker 2"],
+  sideASpeaker: "Speaker A",
   sideBTitle: "OPPOSITION",
-  sideBSpeakers: ["Speaker 1", "Speaker 2"],
+  sideBSpeaker: "Speaker B",
   
   // Timer settings
   timerDuration: 180, // Default 3 minutes in seconds
@@ -138,9 +138,9 @@ const DOM = {
   timerCard: document.querySelector(".timer-card"),
   timerStatusLabel: document.getElementById("timer-status-label"),
   displaySideATitle: document.getElementById("display-side-a-title"),
-  displaySideASpeakers: document.getElementById("display-side-a-speakers"),
+  displaySideASpeaker: document.getElementById("display-side-a-speaker"),
   displaySideBTitle: document.getElementById("display-side-b-title"),
-  displaySideBSpeakers: document.getElementById("display-side-b-speakers"),
+  displaySideBSpeaker: document.getElementById("display-side-b-speaker"),
   
   // Dock items
   dockItems: document.querySelectorAll(".dock-item"),
@@ -160,8 +160,8 @@ const DOM = {
   inputMotionLabel: document.getElementById("input-motion-label"),
   inputSideATitle: document.getElementById("input-side-a-title"),
   inputSideBTitle: document.getElementById("input-side-b-title"),
-  inputSideASpeakers: document.getElementById("input-side-a-speakers"),
-  inputSideBSpeakers: document.getElementById("input-side-b-speakers"),
+  inputSideASpeaker: document.getElementById("input-side-a-speaker"),
+  inputSideBSpeaker: document.getElementById("input-side-b-speaker"),
   sliderParticleCount: document.getElementById("slider-particle-count"),
   sliderParticleSpeed: document.getElementById("slider-particle-speed"),
   
@@ -223,9 +223,9 @@ function saveToLocalStorage() {
     particleCount: state.particleCount,
     particleSpeedFactor: state.particleSpeedFactor,
     sideATitle: state.sideATitle,
-    sideASpeakers: state.sideASpeakers,
+    sideASpeaker: state.sideASpeaker,
     sideBTitle: state.sideBTitle,
-    sideBSpeakers: state.sideBSpeakers
+    sideBSpeaker: state.sideBSpeaker
   }));
 }
 
@@ -245,9 +245,9 @@ function loadFromLocalStorage() {
       if (saved.particleCount !== undefined) state.particleCount = Number(saved.particleCount);
       if (saved.particleSpeedFactor !== undefined) state.particleSpeedFactor = Number(saved.particleSpeedFactor);
       if (saved.sideATitle) state.sideATitle = saved.sideATitle;
-      if (saved.sideASpeakers) state.sideASpeakers = saved.sideASpeakers;
+      if (saved.sideASpeaker) state.sideASpeaker = saved.sideASpeaker;
       if (saved.sideBTitle) state.sideBTitle = saved.sideBTitle;
-      if (saved.sideBSpeakers) state.sideBSpeakers = saved.sideBSpeakers;
+      if (saved.sideBSpeaker) state.sideBSpeaker = saved.sideBSpeaker;
     } catch (e) {
       console.error("Error loading state from localStorage", e);
     }
@@ -498,8 +498,8 @@ function initControlPanel() {
     
     DOM.inputSideATitle.value = state.sideATitle;
     DOM.inputSideBTitle.value = state.sideBTitle;
-    DOM.inputSideASpeakers.value = state.sideASpeakers.join("\n");
-    DOM.inputSideBSpeakers.value = state.sideBSpeakers.join("\n");
+    DOM.inputSideASpeaker.value = state.sideASpeaker;
+    DOM.inputSideBSpeaker.value = state.sideBSpeaker;
     
     const minutes = Math.floor(state.timerDuration / 60);
     const seconds = state.timerDuration % 60;
@@ -583,14 +583,14 @@ function initControlPanel() {
     DOM.displaySideBTitle.textContent = state.sideBTitle;
   });
 
-  DOM.inputSideASpeakers.addEventListener("input", (e) => {
-    state.sideASpeakers = e.target.value.split("\n");
-    updateSpeakersUI();
+  DOM.inputSideASpeaker.addEventListener("input", (e) => {
+    state.sideASpeaker = e.target.value;
+    DOM.displaySideASpeaker.textContent = state.sideASpeaker;
   });
 
-  DOM.inputSideBSpeakers.addEventListener("input", (e) => {
-    state.sideBSpeakers = e.target.value.split("\n");
-    updateSpeakersUI();
+  DOM.inputSideBSpeaker.addEventListener("input", (e) => {
+    state.sideBSpeaker = e.target.value;
+    DOM.displaySideBSpeaker.textContent = state.sideBSpeaker;
   });
 
   // Apply and Close
@@ -601,8 +601,8 @@ function initControlPanel() {
     
     state.sideATitle = DOM.inputSideATitle.value.toUpperCase();
     state.sideBTitle = DOM.inputSideBTitle.value.toUpperCase();
-    state.sideASpeakers = DOM.inputSideASpeakers.value.split("\n");
-    state.sideBSpeakers = DOM.inputSideBSpeakers.value.split("\n");
+    state.sideASpeaker = DOM.inputSideASpeaker.value;
+    state.sideBSpeaker = DOM.inputSideBSpeaker.value;
     
     // Save to localStorage
     saveToLocalStorage();
@@ -643,7 +643,8 @@ function applyStateToUI() {
   
   DOM.displaySideATitle.textContent = state.sideATitle;
   DOM.displaySideBTitle.textContent = state.sideBTitle;
-  updateSpeakersUI();
+  DOM.displaySideASpeaker.textContent = state.sideASpeaker;
+  DOM.displaySideBSpeaker.textContent = state.sideBSpeaker;
   
   DOM.body.className = `theme-${state.theme}`;
   
@@ -656,26 +657,6 @@ function applyStateToUI() {
   });
   
   adjustTopicFontSize();
-}
-
-function updateSpeakersUI() {
-  DOM.displaySideASpeakers.innerHTML = "";
-  state.sideASpeakers.forEach(name => {
-    if (name.trim()) {
-      const li = document.createElement("li");
-      li.textContent = name.trim();
-      DOM.displaySideASpeakers.appendChild(li);
-    }
-  });
-  
-  DOM.displaySideBSpeakers.innerHTML = "";
-  state.sideBSpeakers.forEach(name => {
-    if (name.trim()) {
-      const li = document.createElement("li");
-      li.textContent = name.trim();
-      DOM.displaySideBSpeakers.appendChild(li);
-    }
-  });
 }
 
 /* ==========================================================================
