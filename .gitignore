@@ -1,0 +1,16 @@
+# System Files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Node modules (if any installed in future)
+node_modules/
+dist/
+.env
+.DS_Store
